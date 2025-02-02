@@ -454,17 +454,12 @@ void finalize_batch()
   }
 
   // Write out surface source if requested.
-  if (settings::surf_source_write &&
-      simulation::ssw_current_file <= settings::ssw_max_files) {
+  if (settings::surf_source_write) {
     bool last_batch = (simulation::current_batch == settings::n_batches);
-    if (simulation::surf_source_bank.full() || last_batch) {
+    if (true) {
       // Determine appropriate filename
       auto filename = fmt::format("{}surface_source.{}", settings::path_output,
         simulation::current_batch);
-      if (settings::ssw_max_files == 1 ||
-          (simulation::ssw_current_file == 1 && last_batch)) {
-        filename = settings::path_output + "surface_source";
-      }
 
       // Get span of source bank and calculate parallel index vector
       auto surf_work_index = mpi::calculate_parallel_index_vector(
