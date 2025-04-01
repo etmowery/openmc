@@ -973,6 +973,8 @@ class SourceParticle:
         Energy of particle in [eV]
     time : float
         Time of particle in [s]
+    id : float
+        Particle id for filtering "double counts"
     wgt : float
         Weight of the particle
     delayed_group : int
@@ -989,6 +991,7 @@ class SourceParticle:
         u: Iterable[float] = (0., 0., 1.),
         E: float = 1.0e6,
         time: float = 0.0,
+        id: float = 0.0
         wgt: float = 1.0,
         delayed_group: int = 0,
         surf_id: int = 0,
@@ -999,6 +1002,7 @@ class SourceParticle:
         self.u = tuple(u)
         self.E = float(E)
         self.time = float(time)
+        self.id = float(id)
         self.wgt = float(wgt)
         self.delayed_group = delayed_group
         self.surf_id = surf_id
@@ -1017,7 +1021,7 @@ class SourceParticle:
             Source particle attributes
 
         """
-        return (self.r, self.u, self.E, self.time, self.wgt,
+        return (self.r, self.u, self.E, self.time, self.id, self.wgt,
                 self.delayed_group, self.surf_id, self.particle.value)
 
 
@@ -1162,11 +1166,11 @@ class ParticleList(list):
         """
         # Extract the attributes of the source particles into a list of tuples
         data = [(sp.r[0], sp.r[1], sp.r[2], sp.u[0], sp.u[1], sp.u[2],
-                 sp.E, sp.time, sp.wgt, sp.delayed_group, sp.surf_id,
+                 sp.E, sp.time, sp.id, sp.wgt, sp.delayed_group, sp.surf_id,
                  sp.particle.name.lower()) for sp in self]
 
         # Define the column names for the DataFrame
-        columns = ['x', 'y', 'z', 'u_x', 'u_y', 'u_z', 'E', 'time', 'wgt',
+        columns = ['x', 'y', 'z', 'u_x', 'u_y', 'u_z', 'E', 'time', 'id', 'wgt',
                    'delayed_group', 'surf_id', 'particle']
 
         # Create the pandas DataFrame from the data
@@ -1197,6 +1201,7 @@ class ParticleList(list):
             ('u', pos_dtype),
             ('E', '<f8'),
             ('time', '<f8'),
+            ('id', '<f8'),
             ('wgt', '<f8'),
             ('delayed_group', '<i4'),
             ('surf_id', '<i4'),
