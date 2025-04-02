@@ -991,7 +991,7 @@ class SourceParticle:
         u: Iterable[float] = (0., 0., 1.),
         E: float = 1.0e6,
         time: float = 0.0,
-        id: float = 0.0
+        id: float = 0.0,
         wgt: float = 1.0,
         delayed_group: int = 0,
         surf_id: int = 0,
